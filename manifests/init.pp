@@ -131,7 +131,7 @@ class ipaclient (
 
       $opt_password = ['--password', $password]
 
-      if is_array($server) {
+      if $server =~ Array {
         # Transform ['a','b'] -> ['--server','a','--server','b']
         $opt_server = split(join(prefix($server, '--server|'), '|'), '\|')
       } elsif !empty($server) {
@@ -255,7 +255,7 @@ class ipaclient (
     # the first value of server parameter
     if empty($server) {
       $sudo_server = $::ipa_server
-    } elsif is_array($server) {
+    } elsif $server =~ Array {
       $sudo_server = $server[0]
     } else {
       $sudo_server = $server
