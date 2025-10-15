@@ -33,7 +33,7 @@ class ipaclient::sudoers (
   if !empty($server) and !empty($domain) {
     $realm = upcase($domain)
 
-    case $::osfamily {
+    case $facts['os']['family'] {
       'RedHat': {
 
         if ($::operatingsystem == 'Fedora' and
