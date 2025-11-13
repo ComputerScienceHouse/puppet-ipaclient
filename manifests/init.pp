@@ -268,18 +268,32 @@ class ipaclient (
       $sudo_domain = $domain
     }
 
-    class { 'ipaclient::sudoers':
-      server  => $sudo_server,
-      domain  => $sudo_domain,
-      require => $installer_resource,
+    if !str2bool($::ipa_enrolled) {
+      class { 'ipaclient::sudoers':
+        server  => $sudo_server,
+        domain  => $sudo_domain,
+        require => $installer_resource,
+      }
+    } else {
+      class { 'ipaclient::sudoers':
+        server  => $sudo_server,
+        domain  => $sudo_domain,
+      }
     }
   }
 
   if str2bool($automount) {
-    class { 'ipaclient::automount':
-        location => $automount_location,
-        server   => $automount_server,
-        require  => $installer_resource,
+    if !str2bool($::ipa_enrolled) {
+      class { 'ipaclient::automount':
+          location => $automount_location,
+          server   => $automount_server,
+          require  => $installer_resource,
+      }
+    } else {
+      class { 'ipaclient::automount':
+          location => $automount_location,
+          server   => $automount_server,
+      }
     }
   }
 }
